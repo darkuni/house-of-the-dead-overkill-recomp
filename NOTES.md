@@ -33,7 +33,13 @@ Same recompiler and runtime as Zack & Wiki, TARGET: Terror, Lost in Shadow and M
   or after the level 1 intro movie, or a hang when a sound stream is closed (0x80264DF0 waits for its reads). On
   the console the disc is slower than that window. runtime/game_hotd.cpp wraps DVDReadAsyncPrio: called from the
   job (lr 0x80255270) it sets the flag before the read and clears it if the call fails.
-- hle_ios.cpp can also delay disc completions by size (G_DISC_BYTES_PER_SEC); not used now.
+- Async disc reads also complete after len / 8 MB/s (G_DISC_BYTES_PER_SEC, hle_ios.cpp), close to the console's
+  drive: with 2 ms completions the title screen could come up without its background.
+
+## Null page
+- Skipping the intro movie with A+B held into the title brings up the save/load dialog before the title's objects
+  exist, and fn_80122904 reads 0x20(null). Guest addresses 0-0xFFFF are now a zero page (runtime.cpp), so a null
+  pointer plus a small offset reads 0 and the game carries on.
 
 ## Status / open issues
 - Boots through the strap and Zapper screens, the SEGA / Headstrong / Blitz logos, the intro movie, the title,

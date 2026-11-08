@@ -1,6 +1,7 @@
 // House of the Dead: Overkill specific fixes.
 #include "ppc.h"
 #include "hle.h"
+#include <cstdlib>
 
 // The streaming loader's job (0x802550D0, on its worker thread) calls DVDReadAsyncPrio and only then stores
 // "read in flight" (r13-0x18E8 = 1); the read's callback (0x80255300) clears it. When the AX interrupt wakes
@@ -10,7 +11,8 @@
 // screen, or a hang when a sound stream closes and waits for its reads). On the console the disc is slow
 // enough that this never happens. Set the flag before the call instead (and clear it when the call fails).
 void hle_wrap_DVDReadAsyncPrio(Ctx* c, GuestFn orig) {
-    const bool loader = c->lr == 0x80255270u;
+    static const bool off = getenv("HOTD_NOWRAP") != nullptr;
+    const bool loader = !off && c->lr == 0x80255270u;
     const uint32_t busy = c->r[13] - 0x18E8u;
     if (loader) W32(busy, 1);
     orig(c);

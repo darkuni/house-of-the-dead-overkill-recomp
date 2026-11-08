@@ -55,6 +55,10 @@ static void reserve_guest() {
     map_rw(0x80000000u, 0x01800000u);   // MEM1 24 MiB
     map_rw(0x90000000u, 0x04000000u);   // MEM2 64 MiB
     map_rw(0xE0000000u, 0x00010000u);   // locked L1 cache
+    // a page of zeros at guest address 0: a null pointer plus a small offset reads 0 instead of ending the
+    // game (House of the Dead: Overkill reads 0x20(null) when the intro movie is skipped with A+B held into
+    // the title, before the title screen's objects exist)
+    map_rw(0x00000000u, 0x00010000u);
 }
 
 static std::vector<uint8_t> readfile(const char* p) {
