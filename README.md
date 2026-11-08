@@ -8,15 +8,14 @@ with a small runtime that replaces the Wii hardware, IOS and the DSP.
 
 ## Status
 
-Work in progress. Boots through the strap screens, the logos, the intro movie, the title, save creation and loading,
-profile select and the menus into Story Mode: level 1's intro movie, cut-scene and gameplay (HUD, enemies, damage,
-the continue screen). Controls: the mouse (or the right stick) is the Wii Remote pointer, left button fires (B).
+Playable: boots through the logos, intro movie, title, saves, profiles and menus into Story Mode, and level 1
+plays (cut-scenes, HUD, enemies, damage, continue). Not every level has been played through yet.
 
 ## Download
 
-Test builds: GitHub Actions (Windows zip and Linux tar.gz). Unpack, put your disc image in the same folder and run
-`hotdoverkill.exe` (Windows) or `./hotdoverkill` (Linux): the first start builds the `game` folder from it. The
-zip's `README.txt` has the controls.
+[Releases](https://github.com/darkuni/house-of-the-dead-overkill-recomp/releases): Windows zip and Linux tar.gz.
+Unpack, put your disc image in the same folder and run `hotdoverkill.exe` (Windows) or `./hotdoverkill` (Linux /
+Steam Deck): the first start builds the `game` folder from it. The zip's `README.txt` has the controls.
 
 ## Building
 

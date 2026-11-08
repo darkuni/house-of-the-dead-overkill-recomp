@@ -14,8 +14,9 @@ Requirements: 64-bit Windows 10/11, or 64-bit Linux with SDL2 (SteamOS has it; e
 libsdl2 / sdl2 from your package manager); a GPU with OpenGL 3.3.
 
 Controls (Wii Remote / Wii Zapper)
-  Shooting is B (the trigger); menus take A. Reload = point away from the screen, which the
-  reload button does for you.
+  Shooting is B (the trigger); menus select with B and go back with A. The title screen wants
+  A and B together (both mouse buttons). Reload = point away from the screen, which the reload
+  button does for you.
   Mouse:    point = Wii Remote pointer, left button = B (fire), right button = A, middle button
             = reload. "Mouse buttons" in the settings menu (or controls = mouse / mouse_swap in
             hotdoverkill.ini) swaps left and right. "Capture mouse" (capture_mouse = 1) keeps
