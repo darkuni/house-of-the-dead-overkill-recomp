@@ -45,8 +45,8 @@ Same recompiler and runtime as Zack & Wiki, TARGET: Terror, Lost in Shadow and M
 
 ## Status / open issues
 - Boots through the strap and Zapper screens, the SEGA / Headstrong / Blitz logos, the intro movie, the title,
-  save creation / loading (NAND), profile select and name entry, main menu, Story Mode, the level 1 intro movie
-  and cut-scene.
+  save creation / loading (NAND), profile select and name entry, main menu, Story Mode, the level 1 intro movie,
+  cut-scene and gameplay (HUD, enemies, damage, continue screen). Reload has not been checked.
 
 ## Testing
 - `POINTER=x,y` takes 0..1 fractions of the picture (or a timeline `x,y;x,y@frame;...` with

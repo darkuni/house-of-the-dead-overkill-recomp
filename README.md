@@ -9,7 +9,8 @@ with a small runtime that replaces the Wii hardware, IOS and the DSP.
 ## Status
 
 Work in progress. Boots through the strap screens, the logos, the intro movie, the title, save creation and loading,
-and profile select. Controls: the mouse (or the right stick) is the Wii Remote pointer, left button fires (B).
+profile select and the menus into Story Mode: level 1's intro movie, cut-scene and gameplay (HUD, enemies, damage,
+the continue screen). Controls: the mouse (or the right stick) is the Wii Remote pointer, left button fires (B).
 
 ## Download
 
