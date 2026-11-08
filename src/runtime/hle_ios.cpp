@@ -215,6 +215,16 @@ static int32_t ios_exec(uint32_t req) {
 
 extern void G_FN_IOS_FREE(Ctx*);  // iosFree(heap, ptr)
 
+// Nonzero while a guest call must not see its async IOS requests complete (game_hotd.cpp): a completion
+// that comes due then is posted again 1 ms later.
+std::atomic<int> g_ios_hold{0};
+static void ios_complete_later(uint32_t us, std::function<void(Ctx*)> fn) {
+    post_irq_after(us, [fn](Ctx* ic) {
+        if (g_ios_hold.load()) { ios_complete_later(1000, fn); return; }
+        fn(ic);
+    });
+}
+
 void hle___ios_Ipc2(Ctx* c) {
     uint32_t req = c->r[3], cb = c->r[4];
     if (!req) { c->r[3] = (uint32_t)-4; return; }
@@ -241,7 +251,7 @@ void hle___ios_Ipc2(Ctx* c) {
     // and a read completing before it resumes leaves the loader waiting forever)
     delay_us += (uint32_t)((uint64_t)g_dvd_last_len * 1000000u / G_DISC_BYTES_PER_SEC);
 #endif
-    post_irq_after(delay_us, [=](Ctx* ic) {
+    ios_complete_later(delay_us, [=](Ctx* ic) {
 #else
     post_irq([=](Ctx* ic) {
 #endif

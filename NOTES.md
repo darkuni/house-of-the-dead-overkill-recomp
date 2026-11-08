@@ -32,7 +32,9 @@ Same recompiler and runtime as Zack & Wiki, TARGET: Terror, Lost in Shadow and M
   meanwhile is cleared before it is set; the flag then stays set and nothing more is read: a black screen at boot
   or after the level 1 intro movie, or a hang when a sound stream is closed (0x80264DF0 waits for its reads). On
   the console the disc is slower than that window. runtime/game_hotd.cpp wraps DVDReadAsyncPrio: called from the
-  job (lr 0x80255270) it sets the flag before the read and clears it if the call fails.
+  job (lr 0x80255270) it holds async IOS completions (g_ios_hold, hle_ios.cpp: a completion that comes due is
+  posted again 1 ms later) until the call returns. The job stores the flag a few instructions later, before any
+  point where an interrupt can be delivered.
 - Async disc reads also complete after len / 8 MB/s (G_DISC_BYTES_PER_SEC, hle_ios.cpp), close to the console's
   drive: with 2 ms completions the title screen could come up without its background.
 
