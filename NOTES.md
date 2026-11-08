@@ -25,16 +25,20 @@ Same recompiler and runtime as Zack & Wiki, TARGET: Terror, Lost in Shadow and M
   up). It now reports WPAD_FMT_CORE_ACC_DPD (2), or 5 with the Nunchuk.
 
 ## Disc reads
-- The streaming loader (worker thread 0x80254EA0, job 0x802550D0, DVD callback 0x80255300) sets its "read in
-  flight" flag only after DVDReadAsyncPrio returns. When the AX interrupt wakes the HOME menu sound thread (priority
-  4) inside that call, the worker goes to the back of the priority-16 queue behind the main thread; a read that
-  completes before it resumes clears the flag first, the worker then sets it, and loading stops for good (random:
-  about one boot in three hung on a black screen). On the console a 256 KB read takes tens of ms, so async disc
-  reads now complete after len / 8 MB/s on top of the 2 ms delay (G_DISC_BYTES_PER_SEC, hle_ios.cpp).
+- The streaming loader (worker thread 0x80254EA0, job 0x802550D0, DVD callback 0x80255300) stores its "read in
+  flight" flag (r13-0x18E8) only after DVDReadAsyncPrio returns, and the callback clears it. When the AX interrupt
+  wakes the HOME menu sound thread (priority 4) inside that call, the worker goes to the back of the priority-16
+  queue and the main thread runs a whole frame first (100 ms and more while a level loads). A read that completes
+  meanwhile is cleared before it is set; the flag then stays set and nothing more is read: a black screen at boot
+  or after the level 1 intro movie, or a hang when a sound stream is closed (0x80264DF0 waits for its reads). On
+  the console the disc is slower than that window. runtime/game_hotd.cpp wraps DVDReadAsyncPrio: called from the
+  job (lr 0x80255270) it sets the flag before the read and clears it if the call fails.
+- hle_ios.cpp can also delay disc completions by size (G_DISC_BYTES_PER_SEC); not used now.
 
 ## Status / open issues
 - Boots through the strap and Zapper screens, the SEGA / Headstrong / Blitz logos, the intro movie, the title,
-  save creation / loading (NAND), profile select and name entry.
+  save creation / loading (NAND), profile select and name entry, main menu, Story Mode, the level 1 intro movie
+  and cut-scene.
 
 ## Testing
 - `POINTER=x,y` takes 0..1 fractions of the picture (or a timeline `x,y;x,y@frame;...` with

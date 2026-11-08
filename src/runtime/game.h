@@ -22,4 +22,3 @@
 #define G_IOS_ASYNC_DELAY_US    2000u         // async IOS requests (disc reads) complete 2 ms later (hle_ios.cpp)
 #define G_RELOAD_OFFSCREEN      1             // reload = aim off the picture: middle mouse / V / LB / LT
 #define G_MOUSE_SWAP_DEFAULT    1             // mouse: left button = B (the trigger), right = A
-#define G_DISC_BYTES_PER_SEC    8000000u      // async disc reads complete after len / 8 MB/s (hle_ios.cpp; the streaming loader races otherwise)

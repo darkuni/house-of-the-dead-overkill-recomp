@@ -6491,8 +6491,9 @@ L_8032A8B8:;
   return; // 8032A8CC
 }
 
+void f_8032A8D0_orig(Ctx* __restrict c);
 // DVDReadAsyncPrio
-void f_8032A8D0(Ctx* __restrict c) {
+void f_8032A8D0_orig(Ctx* __restrict c) {
   trace_call(0x8032A8D0u);
   {uint32_t ea=c->r[1]+0xFFFFFFE0u; W32(ea,c->r[1]); c->r[1]=ea;} // 8032A8D0
   c->r[0]=c->lr; // 8032A8D4
@@ -6551,6 +6552,8 @@ L_8032A958:;
   c->r[1]=c->r[1]+0x00000020u; // 8032A998
   return; // 8032A99C
 }
+void hle_wrap_DVDReadAsyncPrio(Ctx*, GuestFn);
+void f_8032A8D0(Ctx* __restrict c) { hle_wrap_DVDReadAsyncPrio(c, f_8032A8D0_orig); }
 
 // fn_8032A9A0
 void f_8032A9A0(Ctx* __restrict c) {

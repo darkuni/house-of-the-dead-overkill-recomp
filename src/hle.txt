@@ -60,3 +60,4 @@ WPADRegisterAllocator = void
 WPADStartSimpleSync = 0
 WPADSetSimpleSyncCallback = 0
 WPADControlLed = 0
+DVDReadAsyncPrio = wrap   # House of the Dead: Overkill loader race (runtime/game_hotd.cpp)
